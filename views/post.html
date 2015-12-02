@@ -77,6 +77,14 @@ function getId(elem) {
     var articleHtml = "<h4>Title:</h4><p ng-model='article.title'>"+titleTxt+"</p><br>"+ "<h4>Authors:</h4><p ng-model='article.authors'>"+authorsTxt+"</p>"+ "<h4>Abstract:</h4><p ng-model='article.abstract'>"+abstractTxt+"</p>"+ "<h4>Keywords:</h4><p ng-model='article.keywords'>"+keywordsTxt+"</p> <input type='submit' value='Post Article' class='btn btn-warning'>";
 
     document.getElementById('article').innerHTML = articleHtml;
+    var article = {
+        title: titleTxt,
+        authors: authorsTxt,
+        keywords: keywordsTxt,
+        abstract: abstractTxt
+
+    };
+    window.article = article;
   });
 
 }
@@ -101,7 +109,7 @@ function getId(elem) {
     <div id="titles"></div>
   </div>
   <div class="col-md-6">
-    <form id="article" ng-submit="postArticle(article)"></form>
+    <form id="article" ng-submit="postArticle()"></form>
   </div>
 </div>
 

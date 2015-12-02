@@ -16,7 +16,9 @@ app.controller('ArticleController', function($scope, $firebase, FURL, $location,
 		return $firebase(ref.child('articles').child(articleId)).$asObject();
 	};
 
-	$scope.postArticle = function(article) {
+	$scope.postArticle = function() {
+		var article = window.article;
+		console.log('postArticle()\t article=%o', article);
 		$scope.articles.$add(article);
 		toaster.pop('success', 'Article created successfully.');
 		$location.path('/browse');
