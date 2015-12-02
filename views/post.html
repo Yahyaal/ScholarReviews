@@ -1,0 +1,110 @@
+<!--
+<div class="container">
+	<div class="row title">
+		<div class="col-md-6 col-md-offset-3">
+
+			<form ng-submit="postArticle(article)">              
+		      <input type="text" ng-model="article.title" class="form-control" placeholder="Title" required><br>             
+		      <textarea ng-model="article.abstract" class="form-control" placeholder="Abstract" required></textarea><br>
+		      <input type="text" ng-model="article.keywords" class="form-control" placeholder="Keywords" reqired><br>
+		      <input type="text" ng-model="article.authors" class="form-control" placeholder="Authors" reqired><br>
+		      <input type="submit" value="Post" class="btn btn-warning">
+		    </form>
+
+		</div>
+	</div>	
+</div>
+-->
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script>
+var baseURL = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/";
+var esearch = "esearch.fcgi?db=pubmed&retmode=json&term=";
+var efetch = "efetch.fcgi?db=pubmed&rettype=abstract&id=";
+$(document).ready(function(){
+    $("button").click(function(e){
+        e.preventDefault();
+        var term = $('input[name=searchPubmed]').val();
+        $.get(baseURL+esearch+term, function(data, status){
+            console.log(status);
+            var ids=data.esearchresult.idlist;
+            var idsTxt=ids.join(',');
+            // alert("Data: " + ids+ "\nStatus: " + status);
+            
+
+            $.get(baseURL+efetch+idsTxt, function(data, status){
+                titles=data.getElementsByTagName("ArticleTitle");
+                var titlesTxt = '<h4>Search Results: </h4><ol>';
+                for (var i = 0; i< titles.length; i++) {
+                  titlesTxt += "<li data-id='"+ids[i]+"' onclick="+"getId(this)"+" class='articleList'>"+titles[i].childNodes[0].nodeValue + "</li>";
+                }
+                titlesTxt += '</ol>';
+                document.getElementById("titles").innerHTML = titlesTxt;
+            });
+        });
+    });
+
+});
+
+
+
+function getId(elem) {
+  var id = $(elem).data('id');
+  var title, abstract, authorsLast, authorsFirst, keywords;
+  var titleTxt ='', abstractTxt='', authorsTxt='', keywordsTxt='';
+  
+  $.get(baseURL+efetch+id, function(data, status) {
+    title=data.getElementsByTagName("ArticleTitle");
+    titleTxt+=title[0].childNodes[0].nodeValue;
+
+    abstract=data.getElementsByTagName("AbstractText");
+    abstractTxt+=abstract[0].childNodes[0].nodeValue;
+
+    authorsLast=data.getElementsByTagName("LastName");
+    authorsFirst=data.getElementsByTagName("ForeName");
+    for (var i = 0; i< authorsLast.length; i++) {
+      authorsTxt += authorsFirst[i].childNodes[0].nodeValue+" "+authorsLast[i].childNodes[0].nodeValue+", ";
+    }
+
+    keywords=data.getElementsByTagName("Keyword");
+    for (var i = 0; i< keywords.length; i++) {
+      keywordsTxt += keywords[i].childNodes[0].nodeValue+", ";
+    }
+
+    var articleHtml = "<h4>Title:</h4><p ng-model='article.title'>"+titleTxt+"</p><br>"+ "<h4>Authors:</h4><p ng-model='article.authors'>"+authorsTxt+"</p>"+ "<h4>Abstract:</h4><p ng-model='article.abstract'>"+abstractTxt+"</p>"+ "<h4>Keywords:</h4><p ng-model='article.keywords'>"+keywordsTxt+"</p> <input type='submit' value='Post Article' class='btn btn-warning'>";
+
+    document.getElementById('article').innerHTML = articleHtml;
+  });
+
+}
+
+
+</script>
+</head>
+
+<body>
+<br> <br>
+<div class="col-md-6 col-md-offset-4">
+  <form name="searchPubmed">
+    <input type="text" name="searchPubmed"/>
+    <button id="button">Search Pubmed</button>
+  </form>
+</div>
+<br>
+<br>
+
+<div class="container-fluid">
+  <div class="col-md-6">
+    <div id="titles"></div>
+  </div>
+  <div class="col-md-6">
+    <form id="article" ng-submit="postArticle(article)"></form>
+  </div>
+</div>
+
+</body>
+</html>
+

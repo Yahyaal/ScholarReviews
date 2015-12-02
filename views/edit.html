@@ -1,0 +1,15 @@
+<div class="container">
+	<div class="row title">
+		<div class="col-md-6 col-md-offset-3">
+
+			<form ng-submit="updateArticle(selectedArticle)">              
+		      <input type="text" ng-model="selectedArticle.title" class="form-control" placeholder="Title" required><br>             
+		      <textarea ng-model="selectedArticle.abstract" class="form-control" placeholder="Abstract" required></textarea><br>
+		      <input type="text" ng-model="selectedArticle.keywords" class="form-control" placeholder="Keywords" required><br>
+		      <input type="text" ng-model="selectedArticle.authors" class="form-control" placeholder="Authors" reqired><br>
+		      <input type="submit" value="Update Article" class="btn btn-info">
+		    </form>
+
+		</div>
+	</div>	
+</div>

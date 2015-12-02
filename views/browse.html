@@ -1,0 +1,44 @@
+<div class="container">
+	<div class="row">
+
+		<div class="col-md-offset-2 col-md-8">
+			<div class="list-group">
+					<!-- SEARCH TOOL -->
+					<div class="form-group">
+						<div class="input-group">
+							<div class="input-group-addon">
+								<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+							</div>
+				      		<input type="text" ng-model="searchArticle" class="form-control" placeholder="Search">
+				    	</div>	
+					</div>
+					<div class="title">
+						<a href="#/post" class="btn btn-warning">Post an Article</a>
+					</div>					
+					
+					<!-- TASK LIST -->	
+					<a ng-repeat="article in articles | filter: searchArticle | orderBy: 'title'" ng-href="#/edit/{{article.$id}}">
+						<div class="list-group-item">
+							<div class="row-picture">
+							    <img class="circle" ng-src="{{article.gravatar}}">
+							</div>					        
+					        <div class="row-content">
+					            <h4 class="list-group-item-heading">{{article.title | limitTo:50}}{{ article.title.length > 50? "..." : ""}}</h4>
+					            <span class="list-group-item-text">
+					            	{{article.abstract | limitTo:150}}{{ article.abstract.length > 150? "..." : ""}}
+					            </span>           
+					        </div>
+					        <!-- <div class="payment">
+					        	<div>${{task.total}}</div>
+					        	<span class="label status {{task.status}}">{{task.status}}</span>
+					        </div> -->
+					    </div>		    
+				    	<div class="list-group-separator"></div>
+			    	</a>
+			</div>
+
+		</div>
+	
+	</div>	
+</div>
+
