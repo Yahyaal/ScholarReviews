@@ -22,7 +22,7 @@ app.controller('ArticleController', function($scope, $firebase, FURL, $location,
 		$scope.articles.$add(article);
 		toaster.pop('success', 'Article created successfully.');
 		$location.path('/browse');
-	};	
+	};
 
 	$scope.updateArticle = function(article) {
 		$scope.selectedArticle.$save(article);

@@ -19,6 +19,10 @@ var app = angular
         templateUrl: 'views/post.html',
         controller: 'ArticleController'
       })
+      .when('/viewArticle/:articleId', {
+        templateUrl: 'views/viewArticle.html',
+        controller: 'ArticleController'
+      })
       .when('/edit/:articleId', {
         templateUrl: 'views/edit.html',
         controller: 'ArticleController'

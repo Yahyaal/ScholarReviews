@@ -17,7 +17,7 @@
 					</div>					
 					
 					<!-- TASK LIST -->	
-					<a ng-repeat="article in articles | filter: searchArticle | orderBy: 'title'" ng-href="#/edit/{{article.$id}}">
+					<a ng-repeat="article in articles | filter: searchArticle | orderBy: 'title'" ng-href="#/viewArticle/{{article.$id}}">
 						<div class="list-group-item">
 							<div class="row-picture">
 							    <img class="circle" ng-src="{{article.gravatar}}">
